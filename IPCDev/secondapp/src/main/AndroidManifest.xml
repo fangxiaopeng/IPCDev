@@ -9,17 +9,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <!-- android:excludeFromRecents="true"时后台进程任务栈不可见 -->
+        <activity android:name=".MainActivity"
+            android:excludeFromRecents="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <!-- 隐藏桌面图标 -->
+                <!--<data android:host="secondapp" android:scheme="com.fxp.secondapp" />-->
             </intent-filter>
         </activity>
         <service android:name=".service.BackService"
             android:exported="true">
             <intent-filter >
                 <action android:name="com.fxp.secondapp.service.BackService" />
+            </intent-filter>
+        </service>
+        <service android:name=".service.DataService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.fxp.secondapp.service.DataService"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </service>
     </application>
