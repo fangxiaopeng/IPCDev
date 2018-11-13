@@ -1,13 +1,20 @@
 // IDataService.aidl
 package com.fxp.secondapp;
 
-// Declare any non-default types here with import statements
+import com.fxp.secondapp.DataBean;
+import com.fxp.secondapp.IDataServiceCallback;
 
 interface IDataService {
-    /**
-     * Demonstrates some basic types that you can use as parameters
-     * and return values in AIDL.
-     */
-    void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat,
-            double aDouble, String aString);
+
+    void addData(String data);
+
+    void deleteData(int index, String data);
+
+    void setData(int index, in DataBean data);
+
+    DataBean getData(int index);
+
+    List<DataBean> getAll();
+
+    void asynMethod(IDataServiceCallback callback);
 }
