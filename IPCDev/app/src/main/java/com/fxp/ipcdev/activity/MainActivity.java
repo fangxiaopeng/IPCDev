@@ -1,7 +1,9 @@
-package com.fxp.ipcdev;
+package com.fxp.ipcdev.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import com.fxp.ipcdev.R;
 
 public class MainActivity extends AppCompatActivity {
 
