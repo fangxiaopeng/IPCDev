@@ -1,5 +1,5 @@
 // DataBean.aidl
-package com.fxp.secondapp.api;
+package com.fxp.secondapp;
 
 // Declare any non-default types here with import statements
 
