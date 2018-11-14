@@ -108,7 +108,7 @@ public class BackService extends Service{
 
     };
 
-    public void senTestBroadcast(String action, String content){
+    public void sendTestBroadcast(String action, String content){
         Intent intent = new Intent();
         intent.setAction(action);
         intent.putExtra("key", content);
