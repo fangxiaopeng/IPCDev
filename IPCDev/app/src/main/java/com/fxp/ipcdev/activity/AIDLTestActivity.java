@@ -8,9 +8,11 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.util.Log;
 
 import com.fxp.ipcdev.R;
-import com.fxp.secondapp.IDataService;
+import com.fxp.secondapp.api.IDataService;
+import com.fxp.secondapp.api.IDataServiceCallback;
 
 /**
  * Title:       AIDLTestActivity
@@ -40,6 +42,19 @@ public class AIDLTestActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aidl_test);
+
+        bindDataService();
+    }
+
+    private void bindDataService(){
+        Log.e("fxp", "AIDLTestActivity-bindDataService");
+        try {
+            Intent serviceIntent = new Intent("com.fxp.secondapp.service.DataService");
+            serviceIntent.setPackage("com.fxp.secondapp");
+            bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -47,8 +62,22 @@ public class AIDLTestActivity extends Activity{
         public void onServiceConnected(ComponentName name, IBinder service) {
             iDataService = IDataService.Stub.asInterface(service);
             if (iDataService != null){
-                // todo
+                try {
+                    iDataService.addData("AIDL Test");
+                    iDataService.asynMethod(new IDataServiceCallback() {
+                        @Override
+                        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
 
+                        }
+
+                        @Override
+                        public IBinder asBinder() {
+                            return null;
+                        }
+                    });
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
 
             try{
@@ -76,17 +105,6 @@ public class AIDLTestActivity extends Activity{
             bindDataService();
         }
     };
-
-    private void bindDataService(){
-        try {
-            Intent serviceIntent = new Intent();
-            serviceIntent.setPackage("com.fxp.secondapp");
-            serviceIntent.setAction("com.fxp.secondapp.service.BackService");
-            bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 
     @Override
     protected void onDestroy(){
