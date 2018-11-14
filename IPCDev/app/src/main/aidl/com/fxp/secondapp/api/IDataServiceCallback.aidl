@@ -1,9 +1,9 @@
 // IDataServiceCallback.aidl
-package com.fxp.secondapp;
+package com.fxp.secondapp.api;
 
 // Declare any non-default types here with import statements
 
-interface IDataServiceCallback {
+oneway interface IDataServiceCallback {
     /**
      * Demonstrates some basic types that you can use as parameters
      * and return values in AIDL.
