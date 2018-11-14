@@ -4,14 +4,16 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
+import android.os.Parcel;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.fxp.secondapp.DataBean;
-import com.fxp.secondapp.IDataService;
-import com.fxp.secondapp.IDataServiceCallback;
+import com.fxp.secondapp.api.DataBean;
+import com.fxp.secondapp.api.IDataService;
+import com.fxp.secondapp.api.IDataServiceCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,19 +38,26 @@ import java.util.List;
  */
 public class DataService extends Service{
 
-    private final String TAG = DataService.class.getSimpleName();
+    private List<String> stringList;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(TAG,"@@ onCreate");
+        Log.e("fxp", "DataService - onCreate");
 
+        stringList = new ArrayList<>();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.e("fxp", "onStartCommand - startId = " + startId + ", Thread ID = " + Thread.currentThread().getId());
+
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        Log.i(TAG,"@@ onBind");
         return binder;
     }
 
@@ -56,7 +65,7 @@ public class DataService extends Service{
             .Stub() {
         @Override
         public void addData(String data) throws RemoteException {
-
+            if (stringList != null) stringList.add(data);
         }
 
         @Override
@@ -80,7 +89,21 @@ public class DataService extends Service{
         }
 
         @Override
-        public void asynMethod(IDataServiceCallback callback) throws RemoteException {}
+        public void asynMethod(IDataServiceCallback callback) throws RemoteException {
+            if (callback != null) callback.basicTypes(1,999999, true, 9, 100, "Callback Test");
+        }
+
+        @Override
+        public boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
+            try {
+                return super.onTransact(code, data, reply, flags);
+            } catch (RuntimeException e) {
+                // 打印 远端api错误信息
+                Log.e("fxp", "Unexpected remote exception", e);
+
+                throw e;
+            }
+        }
     };
 
 }
