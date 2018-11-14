@@ -1,4 +1,4 @@
-package com.fxp.secondapp;
+package com.fxp.secondapp.api;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -56,11 +56,18 @@ public class DataBean implements Parcelable{
     }
 
     /**
-     * 参数是一个Parcel,用它来存储与传输数据
-     * @param dest
+     * @Description:  默认生成的模板类对象只支持定向tag in。如果要支持out 或者 inout，需要实现 readFromParcel() 方法
+     *
+     * @Author:  fxp
+     * @Date:    2018/11/13   3:01 PM
+     * @param    dest 一个Parcel,用它来存储与传输数据
+     * @return   void
+     * @exception/throws
      */
     public void readFromParcel(Parcel dest) {
-        //注意，此处的读值顺序应当是和writeToParcel()方法中一致的
+        /**
+         * 注意，此处的读值顺序应当是和writeToParcel()方法中一致的
+         */
         id = dest.readString();
         index = dest.readInt();
         value = dest.readString();
