@@ -32,6 +32,18 @@
                 <action android:name="com.fxp.secondapp.service.DataService"/>
             </intent-filter>
         </service>
+        <activity
+            android:name=".activity.OnePxActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/OnePxActStyle"
+            android:finishOnTaskLaunch="false"
+            android:exported="true"
+            android:configChanges="keyboardHidden|orientation|screenSize|navigation|keyboard">
+            <intent-filter>
+                <action android:name="com.fxp.secondapp.activity.OnePxActivity" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
