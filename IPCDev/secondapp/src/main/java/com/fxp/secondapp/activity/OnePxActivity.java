@@ -1,16 +1,11 @@
 package com.fxp.secondapp.activity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 /**
  * Title:       OnePxActivity
@@ -42,6 +37,12 @@ public class OnePxActivity extends Activity {
 
         Log.e("fxp-OnePxActivity", "onCreate");
 
+        initWindow();
+
+        doSomeThing();
+    }
+
+    private void initWindow(){
         Window window = getWindow();
         window.setGravity(Gravity.LEFT | Gravity.TOP);
         WindowManager.LayoutParams params = window.getAttributes();
@@ -50,8 +51,11 @@ public class OnePxActivity extends Activity {
         params.height = 1;
         params.width = 1;
         window.setAttributes(params);
+    }
 
-        startDaemonService();
+    private void doSomeThing(){
+        // todo
+
     }
 
     @Override
@@ -62,44 +66,4 @@ public class OnePxActivity extends Activity {
 
         finish();
     }
-
-    private void startDaemonService(){
-        Log.e("fxp-OnePxActivity", "startDaemonService");
-
-        try {
-            Intent intent = new Intent("com.fxp.ipcdev.activity.OnePxActivity");
-            startActivity(intent);
-
-            handleMessage(handler, 0, "startDaemonService");
-        } catch (Exception e) {
-            e.printStackTrace();
-            handleMessage(handler, 0, e.getMessage().toString());
-        }
-    }
-
-    private void handleMessage(Handler h, int msgID, String data)
-    {
-        Message msg = new Message();
-        msg.what = msgID;
-        Bundle bundle = new Bundle();
-        bundle.putString("data", data);
-        msg.setData(bundle);
-        handler.sendMessage(msg);
-    }
-
-    @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler(){
-
-        public void handleMessage(android.os.Message msg) {
-            String data = msg.getData().getString("data");
-            switch (msg.what){
-                case 0:
-                    Toast.makeText(OnePxActivity.this, data, Toast.LENGTH_SHORT).show();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
 }
