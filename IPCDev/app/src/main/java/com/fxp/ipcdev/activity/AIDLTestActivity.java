@@ -51,7 +51,11 @@ public class AIDLTestActivity extends Activity{
         try {
             Intent serviceIntent = new Intent("com.fxp.secondapp.service.DataService");
             serviceIntent.setPackage("com.fxp.secondapp");
-            bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+            /**
+             * 进程B已启动，进程A bindService 返回true，绑定成功；
+             * 进程B未启动，进程A bindService 返回false，绑定失败；需开启关联启动权限。
+             */
+            boolean isSuccess = bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -64,17 +68,7 @@ public class AIDLTestActivity extends Activity{
             if (iDataService != null){
                 try {
                     iDataService.addData("AIDL Test");
-                    iDataService.asynMethod(new IDataServiceCallback() {
-                        @Override
-                        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
-
-                        }
-
-                        @Override
-                        public IBinder asBinder() {
-                            return null;
-                        }
-                    });
+                    iDataService.asynMethod("params", iDataServiceCallback);
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -90,6 +84,18 @@ public class AIDLTestActivity extends Activity{
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
+    private IDataServiceCallback iDataServiceCallback = new IDataServiceCallback.Stub() {
+        @Override
+        public void onSuccess(String result) throws RemoteException {
+
+        }
+
+        @Override
+        public void onFailure(String error) throws RemoteException {
 
         }
     };
