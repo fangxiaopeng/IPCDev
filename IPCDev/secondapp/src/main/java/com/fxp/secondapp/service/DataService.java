@@ -58,7 +58,7 @@ public class DataService extends Service{
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return binder;
+        return null;
     }
 
     Binder binder = new IDataService
@@ -89,8 +89,9 @@ public class DataService extends Service{
         }
 
         @Override
-        public void asynMethod(IDataServiceCallback callback) throws RemoteException {
-            if (callback != null) callback.basicTypes(1,999999, true, 9, 100, "Callback Test");
+        public void asynMethod(String params, IDataServiceCallback callback) throws RemoteException {
+            if (callback != null) callback.onSuccess("Callback Test onSuccess");
+
         }
 
         @Override
