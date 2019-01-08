@@ -29,5 +29,5 @@ interface IDataService {
 
     List<DataBean> getAll();
 
-    void asynMethod(IDataServiceCallback callback);
+    void asynMethod(String params, IDataServiceCallback callback);
 }
