@@ -25,7 +25,7 @@ import java.util.List;
  * <p>
  * Create at:   2018/11/10 4:29 PM
  * <p>
- * Description:
+ * Description: AIDL跨进程通信demo
  * <p>
  * <p>
  * Modification History:
